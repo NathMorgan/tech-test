@@ -18,16 +18,26 @@
 var performActions = function(e) { // Helper function for clicking buttons
     switch(e.target.className) {
         case 'add':
-            console.log('you hit add');
+                console.log('you hit add');
+
+                //Getting the name and the gender of the frog from the user
+                namein = prompt("Enter frog name");
+                genderin = prompt("Enter frog gender");
+
+                //Adding the frog to the pool
+                frogPond.addFrog({
+                    name: namein, gender: genderin
+                });
+
             break;
             
         case 'kill':
-            console.log('you hit kill');
-            break;
+                console.log('you hit kill');
+                break;
             
         case 'breed':
-            console.log('you hit breed');
-            break;
+                console.log('you hit breed');
+                break;
     }
 },
     
