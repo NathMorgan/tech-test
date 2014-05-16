@@ -25,9 +25,9 @@ var performActions = function(e) { // Helper function for clicking buttons
                 genderin = prompt("Enter frog gender");
 
                 //Adding the frog to the pool
-                frogPond.addFrog({
-                    name: namein, gender: genderin
-                });
+                frogPond.add([
+                        new Frog({name : namein, gender : genderin})
+                ]);
 
             break;
             
