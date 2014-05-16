@@ -32,62 +32,63 @@ var performActions = function(e) { // Helper function for clicking buttons
 },
     
 Pond = function() { this.create(); };
-    Pond.prototype = function() {
-        var _body,
-            frogs,
-            _actions, /* DOM element holders */
 
-            _pond,    /* reference to self */
-            Frogs,    /* Frogs in Pond */
+Pond.prototype = function() {
+    var _body,
+        frogs,
+        _actions, /* DOM element holders */
+
+        _pond,    /* reference to self */
+        Frogs,    /* Frogs in Pond */
           
-        create = function() {
-            /* Set up DOM */
-            _body = document.createElement('div');
-            _body.className = 'frogPond';
-            _body.innerHTML = '<ul class="frogs"></ul><div class="actions"><button class="add">Add a Frog</button><button class="kill">Kill a frog</button><button class="breed">Encourage breeding</button></div>';
-            document.body.appendChild(_body);
-            _frogs = _body.getElementsByClassName('frogs')[0];
-            _actions = _body.getElementsByClassName('actions')[0];
-            /* End DOM Setup */
+    create = function() {
+        /* Set up DOM */
+        _body = document.createElement('div');
+        _body.className = 'frogPond';
+        _body.innerHTML = '<ul class="frogs"></ul><div class="actions"><button class="add">Add a Frog</button><button class="kill">Kill a frog</button><button class="breed">Encourage breeding</button></div>';
+        document.body.appendChild(_body);
+        _frogs = _body.getElementsByClassName('frogs')[0];
+        _actions = _body.getElementsByClassName('actions')[0];
+        /* End DOM Setup */
 
-            this.Frogs = [];
-            _pond = this;
+        this.Frogs = [];
+        _pond = this;
             
-            _actions.addEventListener('click', function(e) { performActions.call(_pond, e); }, false);
-            /* perform an action on this pond only */
-        },
+         _actions.addEventListener('click', function(e) { performActions.call(_pond, e); }, false);
+         /* perform an action on this pond only */
+    },
           
-        add = function(frogs) { /* accepts array of frogs or single frog */
-            if(frogs) {
-                if(!frogs.propertyIsEnumerable(length) && typeof frogs.splice !== "function") {
-                    frogs = [frogs];
-                }
+    add = function(frogs) { /* accepts array of frogs or single frog */
+        if(frogs) {
+            if(!frogs.propertyIsEnumerable(length) && typeof frogs.splice !== "function") {
+                frogs = [frogs];
             }
+        }
 
-            var i = 0,
+        var i = 0,
                 l = frogs.length;
               
-            for(; i < l; i++) {
-              this.addFrog(frogs[i]);
-            }
-        },
+        for(; i < l; i++) {
+            this.addFrog(frogs[i]);
+        }
+    },
           
-        addFrog = function(frog) {
-            /* only frogs allowed in this pond, this is a speciesist pond */
-            if(frog instanceof Frog) {
-                frog.setId(this.Frogs[this.Frogs.length - 1] ? this.Frogs[this.Frogs.length - 1].getId() + 1 : 1);
-                this.Frogs.push(frog);
+    addFrog = function(frog) {
+        /* only frogs allowed in this pond, this is a speciesist pond */
+        if(frog instanceof Frog) {
+            frog.setId(this.Frogs[this.Frogs.length - 1] ? this.Frogs[this.Frogs.length - 1].getId() + 1 : 1);
+            this.Frogs.push(frog);
               
-                var _el = document.createElement('li');
-                _el.innerText = frog.name;
-                _el.className = frog.gender;
-                _el.setAttribute('data-frogid', frog.getId());
-                _frogs.appendChild(_el);
-            }
-        };
+            var _el = document.createElement('li');
+            _el.innerText = frog.name;
+            _el.className = frog.gender;
+            _el.setAttribute('data-frogid', frog.getId());
+            _frogs.appendChild(_el);
+        }
+    };
       
-        return { create: create, add: add, addFrog: addFrog };
-    }(),
+    return { create: create, add: add, addFrog: addFrog };
+}(),
 
 Frog = function(data) { this.birth(data); };
 
