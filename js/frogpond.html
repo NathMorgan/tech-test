@@ -29,10 +29,16 @@ var performActions = function(e) { // Helper function for clicking buttons
                         new Frog({name : namein, gender : genderin})
                 ]);
 
-            break;
+                break;
             
         case 'kill':
                 console.log('you hit kill');
+                //Getting the id of the frog to kill
+                frogid = prompt("Enter frog id to kill");
+
+                //Killing the frog :(
+                frogPond.kill(frogid);
+
                 break;
             
         case 'breed':
@@ -82,11 +88,23 @@ Pond.prototype = function() {
             this.addFrog(frogs[i]);
         }
     },
+
+    kill = function(frogid){
+        //Removing the frog from the array
+        this.Frogs.splice(this.Frogs[frogid-1], 1);
+
+        //Getting the DOM that holds the now deleted frog
+        frogelement = document.querySelectorAll("[data-frogid='" + frogid + "']")[0]
+
+        //Removing the DOM
+        frogelement.parentNode.removeChild(frogelement);
+    },
           
     addFrog = function(frog) {
         /* only frogs allowed in this pond, this is a speciesist pond */
         if(frog instanceof Frog) {
             frog.setId(this.Frogs[this.Frogs.length - 1] ? this.Frogs[this.Frogs.length - 1].getId() + 1 : 1);
+
             this.Frogs.push(frog);
               
             var _el = document.createElement('li');
@@ -97,7 +115,7 @@ Pond.prototype = function() {
         }
     };
       
-    return { create: create, add: add, addFrog: addFrog };
+    return { create: create, add: add, kill: kill, addFrog: addFrog };
 }(),
 
 Frog = function(data) { this.birth(data); };
@@ -111,11 +129,13 @@ Frog.prototype = function() {
         this.name = frogData.name;
         this.gender = frogData.gender;
     },
-          
+
     setId = function(id) {
         _id = parseInt(id);
     },
 
+    //Had a massive issues here with trying to get the id of each frog in the array for example if I had 4 frogs it would
+    //always return 4 instead of 1, 2, 3, 4 that I was expecting
     getId = function() {
         return _id;
     };
@@ -126,7 +146,9 @@ Frog.prototype = function() {
 var frogPond = new Pond();
 frogPond.add([
     new Frog({ name: "Frank", gender: "m" }),
-    new Frog({ name: "Georgia", gender: "f" })
+    new Frog({ name: "Georgia", gender: "f" }),
+    new Frog({ name: "test", gender: "m" }),
+    new Frog({ name: "test3", gender: "f" })
 ]);
 </script>
 
