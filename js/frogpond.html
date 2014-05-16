@@ -16,31 +16,31 @@
 <body> 
 <script>
 var performActions = function(e) { // Helper function for clicking buttons
-        switch(e.target.className) {
-          case 'add':
+    switch(e.target.className) {
+        case 'add':
             console.log('you hit add');
             break;
             
-          case 'kill':
+        case 'kill':
             console.log('you hit kill');
             break;
             
-          case 'breed':
+        case 'breed':
             console.log('you hit breed');
             break;
-        }
-      },
+    }
+},
     
-    Pond = function() { this.create(); };
+Pond = function() { this.create(); };
     Pond.prototype = function() {
-      var _body,
-          _frogs,
-          _actions, /* DOM element holders */
+        var _body,
+            frogs,
+            _actions, /* DOM element holders */
 
-          _pond,    /* reference to self */
-          Frogs,    /* Frogs in Pond */
+            _pond,    /* reference to self */
+            Frogs,    /* Frogs in Pond */
           
-          create = function() {
+        create = function() {
             /* Set up DOM */
             _body = document.createElement('div');
             _body.className = 'frogPond';
@@ -55,13 +55,13 @@ var performActions = function(e) { // Helper function for clicking buttons
             
             _actions.addEventListener('click', function(e) { performActions.call(_pond, e); }, false);
             /* perform an action on this pond only */
-          },
+        },
           
-          add = function(frogs) { /* accepts array of frogs or single frog */
+        add = function(frogs) { /* accepts array of frogs or single frog */
             if(frogs) {
-              if(!frogs.propertyIsEnumerable(length) && typeof frogs.splice !== "function") {
-                frogs = [frogs];
-              }
+                if(!frogs.propertyIsEnumerable(length) && typeof frogs.splice !== "function") {
+                    frogs = [frogs];
+                }
             }
 
             var i = 0,
@@ -70,51 +70,52 @@ var performActions = function(e) { // Helper function for clicking buttons
             for(; i < l; i++) {
               this.addFrog(frogs[i]);
             }
-          },
+        },
           
-          addFrog = function(frog) {
+        addFrog = function(frog) {
             /* only frogs allowed in this pond, this is a speciesist pond */
             if(frog instanceof Frog) {
-              frog.setId(this.Frogs[this.Frogs.length - 1] ? this.Frogs[this.Frogs.length - 1].getId() + 1 : 1);
-              this.Frogs.push(frog);
+                frog.setId(this.Frogs[this.Frogs.length - 1] ? this.Frogs[this.Frogs.length - 1].getId() + 1 : 1);
+                this.Frogs.push(frog);
               
-              var _el = document.createElement('li');
-              _el.innerText = frog.name;
-              _el.className = frog.gender;
-              _el.setAttribute('data-frogid', frog.getId());
-              _frogs.appendChild(_el);
+                var _el = document.createElement('li');
+                _el.innerText = frog.name;
+                _el.className = frog.gender;
+                _el.setAttribute('data-frogid', frog.getId());
+                _frogs.appendChild(_el);
             }
-          };
+        };
       
-      return { create: create, add: add, addFrog: addFrog };
+        return { create: create, add: add, addFrog: addFrog };
     }(),
 
-    Frog = function(data) { this.birth(data); };
-    Frog.prototype = function() {
-      var _id,
-          name,
-          gender,
-          
-          birth = function(frogData) {
-            this.name = frogData.name;
-            this.gender = frogData.gender;
-          },
-          
-          setId = function(id) {
-            _id = parseInt(id);
-          },
+Frog = function(data) { this.birth(data); };
 
-          getId = function() {
-            return _id;
-          };
+Frog.prototype = function() {
+    var _id,
+            name,
+            gender,
+          
+    birth = function(frogData) {
+        this.name = frogData.name;
+        this.gender = frogData.gender;
+    },
+          
+    setId = function(id) {
+        _id = parseInt(id);
+    },
+
+    getId = function() {
+        return _id;
+    };
       
-      return { birth: birth, setId: setId, getId: getId };
-    }();
+    return { birth: birth, setId: setId, getId: getId };
+}();
 
 var frogPond = new Pond();
 frogPond.add([
-  new Frog({ name: "Frank", gender: "m" }),
-  new Frog({ name: "Georgia", gender: "f" })
+    new Frog({ name: "Frank", gender: "m" }),
+    new Frog({ name: "Georgia", gender: "f" })
 ]);
 </script>
 
