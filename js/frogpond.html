@@ -61,7 +61,8 @@
   }
 </style>
   
-<body> 
+<body>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script>
 var performActions = function(e) { // Helper function for clicking buttons
     switch(e.target.className) {
@@ -178,21 +179,26 @@ Pond.prototype = function() {
         alert(breedtotal + " Frogs spawned");
 
         //Adding the new frogs to the pond
-        for (var i = 0; i < breedtotal; i++) {
-            //Getting the name and the gender of the frog from the user
-            namein = prompt("Enter frog name");
-            genderin = prompt("Enter frog gender");
-
-            //Adding the frog to the pool
-            frogPond.add([
-                new Frog({name : namein, gender : genderin})
-            ]);
-        }
+        frogPond.randomFrog(breedtotal);
 
         //console.log((male % female) + (female % male)); Checking to see how many males can go into females and females
         // into males if there are the same amount of males to females will be a 0 else it will be the total amount that can breed
         //console.log("Male frogs count: " + male);
         //console.log("Female frogs count: " + female);
+    },
+
+    //This function will generate a random frog from this API http://randomuser.me/. I have used jQuery to handle the
+    //ajax call since it will prevent having to write lines of Javascript code to do a simple call
+    randomFrog = function(amount) {
+        $.ajax({
+            url: 'http://api.randomuser.me/?results=' + amount,
+            dataType: 'json',
+            success: function (data) {
+                data.results.forEach(function(frog){
+                    frogPond.add(new Frog({name: frog.user.name.first, gender: (frog.user.gender).charAt(0)}));
+                })
+            }
+        });
     },
           
     addFrog = function(frog) {
@@ -210,7 +216,7 @@ Pond.prototype = function() {
         }
     };
       
-    return { create: create, add: add, kill: kill, breed: breed, addFrog: addFrog };
+    return { create: create, add: add, kill: kill, breed: breed, addFrog: addFrog, randomFrog: randomFrog };
 }(),
 
 Frog = function(data) { this.birth(data); };
