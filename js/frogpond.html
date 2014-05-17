@@ -2,15 +2,63 @@
 <html>
 
 <style>
-  html, body { font-size: 16px; }
-  .frogPond { background-color: #0071b9; margin: 1em; padding: 1em; border: 0.125em solid aqua; border-radius: 0.5em; }
-  .frogPond h1 { text-align: center; }
-  .frogPond .actions { margin: 1em 0 0 0; padding: 0; }
-  .frogPond .actions button { display: inline-block; margin: 0 0.75em 0 0; background-color: aqua; border: 0.125em solid darkblue; padding: 0.25em; border-radius: 0.25em; font-size: 0.75em; cursor: pointer; }
-  .frogPond .frogs { border: 0.25em solid aqua; border-radius: 0.5em; margin: 0; padding: 0; }
-  .frogPond .frogs li { margin: 1em; padding: 0.25em; list-style: none; font-weight: bold; font-size: 1em; border-radius: 0.25em; }
-  .frogPond .m { color: darkblue; background-color: #1182ca; }
-  .frogPond .f { color: hotpink; background-color: #ffcccc; }
+  html, body {
+      font-size: 16px;
+  }
+  .frogPond {
+      background-color: #0071b9;
+      margin: 1em;
+      padding: 1em;
+      border: 0.125em solid aqua;
+      border-radius: 0.5em;
+  }
+  .frogPond h1 {
+      text-align: center;
+  }
+  .frogPond .actions {
+      margin: 1em 0 0 0;
+      padding: 0;
+  }
+  .frogPond .actions button {
+      display: inline-block;
+      margin: 0 0.75em 0 0;
+      background-color: aqua;
+      border: 0.125em solid darkblue;
+      padding: 0.25em;
+      border-radius: 0.25em;
+      font-size: 0.75em;
+      cursor: pointer;
+  }
+  .frogPond .frogs {
+      border: 0.25em solid aqua;
+      border-radius: 0.5em;
+      margin: 0;
+      padding: 0;
+  }
+  .frogs li{
+      text-align: center;
+      width: 150px;
+      height: 150px;
+      display: inline-block;
+  }
+  .frogs li h2{
+      margin-top: 0px;
+  }
+  .frogPond .frogs li {
+      margin: 1em; padding: 0.25em;
+      list-style: none;
+      font-weight: bold;
+      font-size: 1em;
+      border-radius: 0.25em;
+  }
+  .frogPond .m {
+      color: darkblue;
+      background-color: #1182ca;
+  }
+  .frogPond .f {
+      color: hotpink;
+      background-color: #ffcccc;
+  }
 </style>
   
 <body> 
@@ -115,18 +163,22 @@ Pond.prototype = function() {
         });
 
         //Calculating the total number of spawns that can happen
-        breedcount = (male % female) + (female % male)
+        breedtotal = (male % female) + (female % male)
 
-        //If the breedcount is 0 that means that there is an equal number of males to females so base the breedcount of
-        //the number of males that are in the pond
-        if(breedcount == 0)
-            breedcount = male;
+
+        //If the breedcount is 0 that means that there is an equal number of males or there is one frog with one gender
+        //preform another check to make sure there is at least one or more genders
+        //else there is a exact number of male to female frogs
+        if(male == 0 || female == 0)
+            breedtotal = 0;
+        else if(breedtotal == 0)
+            breedtotal = male;
 
         //Informing the user to how many frogs that spawned
-        alert(breedcount + " Frogs spawned");
+        alert(breedtotal + " Frogs spawned");
 
         //Adding the new frogs to the pond
-        for (var i = 0; i < breedcount; i++) {
+        for (var i = 0; i < breedtotal; i++) {
             //Getting the name and the gender of the frog from the user
             namein = prompt("Enter frog name");
             genderin = prompt("Enter frog gender");
@@ -151,7 +203,7 @@ Pond.prototype = function() {
             this.Frogs.push(frog);
               
             var _el = document.createElement('li');
-            _el.innerText = frog.name;
+            _el.innerHTML  = '<h2>' + frog.name + '</h2><img src="/tech-test/js/' + frog.gender + '.png" />';
             _el.className = frog.gender;
             _el.setAttribute('data-frogid', frog.getId());
             _frogs.appendChild(_el);
