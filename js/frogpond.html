@@ -43,6 +43,9 @@ var performActions = function(e) { // Helper function for clicking buttons
             
         case 'breed':
                 console.log('you hit breed');
+
+                frogPond.breed();
+
                 break;
     }
 },
@@ -99,6 +102,46 @@ Pond.prototype = function() {
         //Removing the DOM
         frogelement.parentNode.removeChild(frogelement);
     },
+
+    breed = function() {
+        male = 0;
+        female = 0;
+        //Going though the frog array taking count how many males and how many females they are in the pond
+        this.Frogs.forEach(function(frog){
+            if(frog.gender == "m")
+                male++;
+            else
+                female++;
+        });
+
+        //Calculating the total number of spawns that can happen
+        breedcount = (male % female) + (female % male)
+
+        //If the breedcount is 0 that means that there is an equal number of males to females so base the breedcount of
+        //the number of males that are in the pond
+        if(breedcount == 0)
+            breedcount = male;
+
+        //Informing the user to how many frogs that spawned
+        alert(breedcount + " Frogs spawned");
+
+        //Adding the new frogs to the pond
+        for (var i = 0; i < breedcount; i++) {
+            //Getting the name and the gender of the frog from the user
+            namein = prompt("Enter frog name");
+            genderin = prompt("Enter frog gender");
+
+            //Adding the frog to the pool
+            frogPond.add([
+                new Frog({name : namein, gender : genderin})
+            ]);
+        }
+
+        //console.log((male % female) + (female % male)); Checking to see how many males can go into females and females
+        // into males if there are the same amount of males to females will be a 0 else it will be the total amount that can breed
+        //console.log("Male frogs count: " + male);
+        //console.log("Female frogs count: " + female);
+    },
           
     addFrog = function(frog) {
         /* only frogs allowed in this pond, this is a speciesist pond */
@@ -115,7 +158,7 @@ Pond.prototype = function() {
         }
     };
       
-    return { create: create, add: add, kill: kill, addFrog: addFrog };
+    return { create: create, add: add, kill: kill, breed: breed, addFrog: addFrog };
 }(),
 
 Frog = function(data) { this.birth(data); };
@@ -136,6 +179,7 @@ Frog.prototype = function() {
 
     //Had a massive issues here with trying to get the id of each frog in the array for example if I had 4 frogs it would
     //always return 4 instead of 1, 2, 3, 4 that I was expecting
+    //Found out though that this var is static so it will always be the same
     getId = function() {
         return _id;
     };
@@ -146,9 +190,7 @@ Frog.prototype = function() {
 var frogPond = new Pond();
 frogPond.add([
     new Frog({ name: "Frank", gender: "m" }),
-    new Frog({ name: "Georgia", gender: "f" }),
-    new Frog({ name: "test", gender: "m" }),
-    new Frog({ name: "test3", gender: "f" })
+    new Frog({ name: "Georgia", gender: "f" })
 ]);
 </script>
 
