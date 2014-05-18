@@ -42,6 +42,7 @@
       display: inline-block;
   }
   .frogs li h2{
+      text-transform: capitalize;
       margin-top: 0px;
   }
   .frogPond .frogs li {
@@ -163,17 +164,12 @@ Pond.prototype = function() {
                 female++;
         });
 
-        //Calculating the total number of spawns that can happen
-        breedtotal = (male % female) + (female % male)
-
-
-        //If the breedcount is 0 that means that there is an equal number of males or there is one frog with one gender
-        //preform another check to make sure there is at least one or more genders
-        //else there is a exact number of male to female frogs
-        if(male == 0 || female == 0)
-            breedtotal = 0;
-        else if(breedtotal == 0)
+        if(male > female)
+            breedtotal = female;
+        else
             breedtotal = male;
+
+        console.log(breedtotal);
 
         //Informing the user to how many frogs that spawned
         alert(breedtotal + " Frogs spawned");
