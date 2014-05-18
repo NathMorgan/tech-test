@@ -93,10 +93,18 @@ var performActions = function(e) { // Helper function for clicking buttons
             
         case 'breed':
                 console.log('you hit breed');
-
+                //Breeding the frogs
                 frogPond.breed();
 
                 break;
+        case 'genocide' :
+            console.log('you hit genocide');
+
+            //Letting the user know that he/she is a monster
+            alert("You monster :(");
+
+            //Killing all the frogs
+            frogPond.frogGenocide();
     }
 },
     
@@ -114,7 +122,7 @@ Pond.prototype = function() {
         /* Set up DOM */
         _body = document.createElement('div');
         _body.className = 'frogPond';
-        _body.innerHTML = '<ul class="frogs"></ul><div class="actions"><button class="add">Add a Frog</button><button class="kill">Kill a frog</button><button class="breed">Encourage breeding</button></div>';
+        _body.innerHTML = '<ul class="frogs"></ul><div class="actions"><button class="add">Add a Frog</button><button class="kill">Kill a frog</button><button class="breed">Encourage breeding</button><button class="genocide">Frog Genocide</button></div>';
         document.body.appendChild(_body);
         _frogs = _body.getElementsByClassName('frogs')[0];
         _actions = _body.getElementsByClassName('actions')[0];
@@ -196,6 +204,14 @@ Pond.prototype = function() {
             }
         });
     },
+
+    //Added kill all to frogs to prevent the frog population from getting out of control like having 500 frogs in the pond
+    frogGenocide = function(){
+        this.Frogs = [];
+        frogsNode = document.getElementsByClassName("frogs")[0];
+
+        frogsNode.innerHTML = '';
+    },
           
     addFrog = function(frog) {
         /* only frogs allowed in this pond, this is a speciesist pond */
@@ -212,7 +228,7 @@ Pond.prototype = function() {
         }
     };
       
-    return { create: create, add: add, kill: kill, breed: breed, addFrog: addFrog, randomFrog: randomFrog };
+    return { create: create, add: add, kill: kill, breed: breed, addFrog: addFrog, randomFrog: randomFrog, frogGenocide: frogGenocide };
 }(),
 
 Frog = function(data) { this.birth(data); };
